@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17191e">
+  <title>Loyihalar</title>
+  <style>
+    :root {
+      --bg: #17191e;
+      --surface: #23262d;
+      --line: #30343d;
+      --text: #f1f3f6;
+      --muted: #aeb5c2;
+      --cyan: #7ecfff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1376px, calc(100% - 64px)); margin-inline: auto; }
+    .projects { padding: 0 0 72px; }
+    .heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 32px;
+      min-height: 145px;
+      padding: 26px 0 18px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 5vw, 58px);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+    .heading p {
+      max-width: 490px;
+      margin: 0 0 2px;
+      color: var(--cyan);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 17px;
+      line-height: 1.45;
+    }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+    .card {
+      min-height: 310px;
+      display: flex;
+      flex-direction: column;
+      padding: 28px 24px 24px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--surface);
+      transition: transform .24s ease, border-color .24s ease, background .24s ease;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: #4b5362;
+      background: #272b33;
+    }
+    .number { color: var(--cyan); font-size: 13px; font-weight: 800; }
+    h2 { margin: 36px 0 14px; font-size: 23px; letter-spacing: -0.035em; }
+    .description {
+      max-width: 390px;
+      margin: 0;
+      color: var(--muted);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 17px;
+      line-height: 1.55;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 9px; margin-top: auto; padding-top: 24px; }
+    .tags span {
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: #31343c;
+      color: #c8cdd7;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    @media (max-width: 800px) {
+      .container { width: min(100% - 32px, 620px); }
+      .heading { align-items: start; flex-direction: column; justify-content: center; min-height: 190px; }
+      .heading p { font-size: 16px; }
+      .grid { grid-template-columns: 1fr; }
+      .card { min-height: 280px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="projects">
+    <div class="container heading">
+      <h1>Projects</h1>
+      <p>Sample project concepts. Replace these with links and details from your own work.</p>
+    </div>
+    <div class="container grid">
+      <a class="card" href="personal-portfolio.html">
+        <span class="number">01 / Website</span>
+        <h2>Personal Portfolio</h2>
+        <p class="description">A responsive portfolio concept presenting a developer's profile, skills, and selected work in one place.</p>
+        <div class="tags"><span>HTML</span><span>CSS</span><span>Responsive</span></div>
+      </a>
+      <a class="card" href="task-manager.html">
+        <span class="number">02 / Interface</span>
+        <h2>Task Manager</h2>
+        <p class="description">A simple interface concept for organizing daily tasks and tracking progress.</p>
+        <div class="tags"><span>JavaScript</span><span>UI</span><span>Web app</span></div>
+      </a>
+      <a class="card" href="product-launch.html">
+        <span class="number">03 / Design</span>
+        <h2>Product Landing Page</h2>
+        <p class="description">A mobile-friendly landing page concept designed to present a product clearly.</p>
+        <div class="tags"><span>Figma</span><span>UX</span><span>Landing page</span></div>
+      </a>
+    </div>
+  </main>
+</body>
+</html>

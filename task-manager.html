@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Task Manager</title>
+  <style>
+    :root { --bg:#eef1f4; --panel:#fff; --ink:#17202a; --muted:#77818e; --blue:#5179e8; --line:#e6e9ed; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif; }
+    button,input { font:inherit; }
+    .app { width:min(1180px,calc(100% - 40px)); min-height:720px; margin:32px auto; display:grid; grid-template-columns:220px 1fr; border:1px solid var(--line); border-radius:22px; background:var(--panel); box-shadow:0 20px 60px rgba(37,48,67,.08); overflow:hidden; }
+    aside { padding:26px 18px; border-right:1px solid var(--line); }
+    .logo { display:flex; align-items:center; gap:10px; padding:0 10px 26px; font-size:18px; font-weight:850; letter-spacing:-.04em; }
+    .logo-mark { width:34px; height:34px; display:grid; place-items:center; border-radius:10px; background:var(--blue); color:white; }
+    .nav { display:grid; gap:6px; }
+    .nav button { height:44px; border:0; border-radius:10px; background:transparent; color:var(--muted); text-align:left; padding:0 12px; cursor:pointer; font-weight:700; }
+    .nav button.active { background:#edf2ff; color:var(--blue); }
+    main { padding:30px 38px 38px; }
+    .top { display:flex; align-items:center; justify-content:space-between; gap:20px; }
+    h1 { margin:0; font-size:34px; letter-spacing:-.05em; }
+    .add { height:44px; border:0; border-radius:10px; background:var(--blue); color:white; padding:0 16px; cursor:pointer; font-weight:750; }
+    .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:26px 0; }
+    .stat { padding:18px; border:1px solid var(--line); border-radius:14px; }
+    .stat span { color:var(--muted); font-size:12px; font-weight:700; }
+    .stat strong { display:block; margin-top:5px; font-size:27px; }
+    .task-head { display:flex; justify-content:space-between; margin:28px 0 10px; }
+    .task-head h2 { margin:0; font-size:16px; }
+    .task-list { display:grid; gap:8px; }
+    .task { min-height:62px; display:flex; align-items:center; gap:14px; padding:10px 14px; border:1px solid var(--line); border-radius:12px; }
+    .check { width:22px; height:22px; flex:none; border:2px solid #cfd5dd; border-radius:7px; background:white; cursor:pointer; }
+    .task.done .check { border-color:var(--blue); background:var(--blue); box-shadow:inset 0 0 0 5px white; }
+    .task.done .task-name { color:#98a1ab; text-decoration:line-through; }
+    .task-name { flex:1; font-size:14px; font-weight:700; }
+    .tag { padding:6px 9px; border-radius:999px; background:#f1f4f8; color:var(--muted); font-size:11px; font-weight:750; }
+    .empty { color:var(--muted); padding:24px 0; text-align:center; }
+    .composer { display:none; gap:8px; margin-top:12px; }
+    .composer.open { display:flex; }
+    .composer input { height:44px; flex:1; border:1px solid var(--line); border-radius:10px; padding:0 12px; outline:none; }
+    .composer input:focus { border-color:var(--blue); }
+    @media(max-width:760px){
+      .app { width:calc(100% - 24px); grid-template-columns:1fr; margin:12px; min-height:calc(100vh - 24px); }
+      aside { display:flex; align-items:center; justify-content:space-between; border-right:0; border-bottom:1px solid var(--line); padding:12px 14px; }
+      .logo { padding:0; }
+      .nav { display:flex; }
+      .nav button { width:42px; height:42px; overflow:hidden; color:transparent; }
+      main { padding:24px 18px; }
+      .stats { grid-template-columns:repeat(3,1fr); }
+      .tag { display:none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="logo"><span class="logo-mark">✓</span>Taskly</div>
+      <div class="nav"><button class="active">Today</button><button>Upcoming</button><button>Completed</button></div>
+    </aside>
+    <main>
+      <div class="top"><h1>Today</h1><button class="add" id="addTask">+ Add task</button></div>
+      <div class="stats">
+        <div class="stat"><span>Total tasks</span><strong id="total">4</strong></div>
+        <div class="stat"><span>Completed</span><strong id="completed">1</strong></div>
+        <div class="stat"><span>Progress</span><strong id="progress">25%</strong></div>
+      </div>
+      <div class="task-head"><h2>Today's tasks</h2><span id="date" style="color:var(--muted);font-size:12px"></span></div>
+      <form class="composer" id="composer"><input id="taskInput" placeholder="What needs to be done?" autocomplete="off"><button class="add" type="submit">Save</button></form>
+      <div class="task-list" id="taskList">
+        <div class="task done"><button class="check" aria-label="Toggle task"></button><span class="task-name">Review project ideas</span><span class="tag">Planning</span></div>
+        <div class="task"><button class="check" aria-label="Toggle task"></button><span class="task-name">Build portfolio layout</span><span class="tag">Design</span></div>
+        <div class="task"><button class="check" aria-label="Toggle task"></button><span class="task-name">Practice JavaScript</span><span class="tag">Learning</span></div>
+        <div class="task"><button class="check" aria-label="Toggle task"></button><span class="task-name">Prepare for team meeting</span><span class="tag">Meeting</span></div>
+      </div>
+    </main>
+  </div>
+  <script>
+    const list = document.getElementById("taskList");
+    const total = document.getElementById("total");
+    const completed = document.getElementById("completed");
+    const progress = document.getElementById("progress");
+    const composer = document.getElementById("composer");
+    const input = document.getElementById("taskInput");
+    document.getElementById("date").textContent = new Intl.DateTimeFormat("uz",{day:"numeric",month:"long"}).format(new Date());
+    function update() {
+      const tasks = [...list.querySelectorAll(".task")];
+      const done = tasks.filter(task => task.classList.contains("done")).length;
+      total.textContent = tasks.length;
+      completed.textContent = done;
+      progress.textContent = tasks.length ? Math.round(done / tasks.length * 100) + "%" : "0%";
+    }
+    list.addEventListener("click", event => {
+      if (!event.target.classList.contains("check")) return;
+      event.target.closest(".task").classList.toggle("done");
+      update();
+    });
+    document.getElementById("addTask").addEventListener("click", () => {
+      composer.classList.toggle("open");
+      if (composer.classList.contains("open")) input.focus();
+    });
+    composer.addEventListener("submit", event => {
+      event.preventDefault();
+      const name = input.value.trim();
+      if (!name) return;
+      const task = document.createElement("div");
+      task.className = "task";
+      task.innerHTML = '<button class="check" aria-label="Toggle task"></button><span class="task-name"></span><span class="tag">New</span>';
+      task.querySelector(".task-name").textContent = name;
+      list.appendChild(task);
+      input.value = "";
+      composer.classList.remove("open");
+      update();
+    });
+  </script>
+</body>
+</html>
