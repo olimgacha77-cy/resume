@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7f5">
+  <meta name="description" content="Rahmonjon Rasulov — web developer portfolio, skills, projects, and contact information.">
+  <title>Rahmonjon Rasulov — Web Developer</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f5;
+      --surface: #fff;
+      --surface-soft: #eef1ed;
+      --text: #19211d;
+      --muted: #68736d;
+      --line: #e2e7e2;
+      --accent: #237b5b;
+      --accent-strong: #176345;
+      --accent-soft: #e4f2eb;
+      --shadow: 0 18px 50px rgba(27, 44, 35, .08);
+      --radius: 22px;
+    }
+
+    [data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #111713;
+      --surface: #19211c;
+      --surface-soft: #202a24;
+      --text: #edf3ee;
+      --muted: #a4b0a8;
+      --line: #2b382f;
+      --accent: #79d6a7;
+      --accent-strong: #a0e9c2;
+      --accent-soft: #203d2e;
+      --shadow: 0 18px 50px rgba(0, 0, 0, .22);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.65;
+      transition: background-color .25s ease, color .25s ease;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .container { width: min(1080px, calc(100% - 48px)); margin-inline: auto; }
+
+    .site-header {
+      position: sticky;
+      z-index: 10;
+      top: 0;
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 75%, transparent);
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: blur(16px);
+    }
+    .nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .brand { font-size: 15px; font-weight: 750; letter-spacing: -.04em; }
+    .brand span { color: var(--accent); }
+    .nav-links { display: flex; align-items: center; gap: 26px; }
+    .nav-links a { color: var(--muted); font-size: 13px; font-weight: 600; transition: color .2s ease; }
+    .nav-links a:hover { color: var(--text); }
+    .theme-toggle {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      transition: transform .2s ease, border-color .2s ease;
+    }
+    .theme-toggle:hover { transform: rotate(12deg); border-color: var(--accent); }
+    .theme-toggle svg { width: 18px; height: 18px; }
+    .nav-action { display: flex; align-items: center; gap: 20px; }
+
+    .hero { padding: 88px 0 78px; }
+    .hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; align-items: center; gap: 70px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--accent-strong);
+      font-size: 12px;
+      font-weight: 750;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+    h1 { margin: 18px 0 14px; font-size: clamp(42px, 6vw, 72px); line-height: 1.04; letter-spacing: -.065em; }
+    .hero-copy { max-width: 560px; margin: 0; color: var(--muted); font-size: 17px; }
+    .hero-copy strong { color: var(--text); font-weight: 650; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .button {
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 0 18px;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      transition: transform .2s ease, background .2s ease, border-color .2s ease;
+    }
+    .button:hover { transform: translateY(-2px); }
+    .button-primary { background: var(--accent); color: #fff; }
+    [data-theme="dark"] .button-primary { color: #102117; }
+    .button-primary:hover { background: var(--accent-strong); }
+    .button-secondary { border-color: var(--line); background: var(--surface); color: var(--text); }
+    .button-secondary:hover { border-color: var(--accent); }
+    .button svg { width: 16px; height: 16px; }
+    .profile-wrap { position: relative; justify-self: end; width: min(100%, 340px); }
+    .profile-wrap::before {
+      position: absolute;
+      z-index: -1;
+      inset: -18px 18px 18px -18px;
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      content: "";
+    }
+    .profile-card {
+      aspect-ratio: .88;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      border: 8px solid var(--surface);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 75% 20%, color-mix(in srgb, var(--accent) 25%, transparent), transparent 32%),
+        linear-gradient(145deg, var(--surface-soft), var(--accent-soft));
+      box-shadow: var(--shadow);
+    }
+    .profile-card img { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .avatar-fallback { display: none; text-align: center; }
+    .avatar-fallback strong { display: block; color: var(--accent-strong); font-size: 72px; line-height: 1; letter-spacing: -.08em; }
+    .avatar-fallback span { display: block; margin-top: 12px; color: var(--muted); font-size: 12px; font-weight: 650; }
+    .profile-note {
+      position: absolute;
+      right: -24px;
+      bottom: 24px;
+      padding: 13px 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .profile-note span { display: block; color: var(--muted); font-size: 10px; font-weight: 550; }
+
+    section { padding: 76px 0; }
+    .section-top { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 30px; }
+    .section-label { margin: 0 0 8px; color: var(--accent-strong); font-size: 11px; font-weight: 750; letter-spacing: .14em; text-transform: uppercase; }
+    h2 { margin: 0; font-size: clamp(29px, 4vw, 40px); line-height: 1.15; letter-spacing: -.05em; }
+    .section-intro { max-width: 390px; margin: 0; color: var(--muted); font-size: 14px; }
+    .about-card {
+      display: grid;
+      grid-template-columns: .75fr 1.25fr;
+      gap: 48px;
+      padding: 34px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+    .about-aside { padding: 21px; border-radius: 16px; background: var(--surface-soft); }
+    .about-aside p { margin: 0; color: var(--muted); font-size: 12px; font-weight: 650; }
+    .about-aside strong { display: block; margin-top: 8px; font-size: 20px; letter-spacing: -.04em; }
+    .about-copy p { margin: 0 0 14px; color: var(--muted); font-size: 14px; }
+    .about-copy p:last-child { margin-bottom: 0; }
+    .skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .skill {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--surface);
+      font-size: 13px;
+      font-weight: 650;
+    }
+    .skill-icon {
+      width: 32px;
+      height: 32px;
+      flex: 0 0 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .project-card {
+      display: flex;
+      min-height: 260px;
+      flex-direction: column;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--surface);
+      transition: transform .2s ease, border-color .2s ease;
+    }
+    .project-card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); }
+    .project-number { color: var(--accent-strong); font-size: 12px; font-weight: 750; }
+    .project-card h3 { margin: 22px 0 8px; font-size: 18px; letter-spacing: -.03em; }
+    .project-card p { margin: 0; color: var(--muted); font-size: 13px; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: auto; padding-top: 22px; }
+    .project-tags span { padding: 5px 9px; border-radius: 999px; background: var(--surface-soft); color: var(--muted); font-size: 10px; font-weight: 650; }
+
+    .contact-panel {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      padding: 34px;
+      border-radius: var(--radius);
+      background: var(--surface-soft);
+    }
+    .contact-panel h2 { font-size: clamp(28px, 4vw, 38px); }
+    .contact-panel p { margin: 10px 0 0; color: var(--muted); font-size: 14px; }
+    .contact-links { display: flex; flex-wrap: wrap; gap: 10px; }
+    .contact-links .button { background: var(--surface); border-color: var(--line); }
+    .contact-links .button:hover { border-color: var(--accent); }
+    footer { padding: 30px 0; color: var(--muted); font-size: 11px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 18px; border-top: 1px solid var(--line); padding-top: 20px; }
+
+    @media (max-width: 760px) {
+      .container { width: min(100% - 36px, 600px); }
+      .nav { min-height: 66px; }
+      .nav-links { gap: 16px; }
+      .nav-links a { font-size: 12px; }
+      .nav-action { gap: 12px; }
+      .hero { padding: 60px 0 54px; }
+      .hero-grid { grid-template-columns: 1fr .75fr; gap: 30px; }
+      .profile-wrap { width: min(100%, 250px); }
+      .profile-note { right: -10px; }
+      section { padding: 58px 0; }
+      .about-card { grid-template-columns: 1fr; gap: 20px; padding: 24px; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card { min-height: 220px; }
+    }
+    @media (max-width: 520px) {
+      .container { width: calc(100% - 32px); }
+      .nav-links { display: none; }
+      .brand { font-size: 14px; }
+      .hero { padding: 48px 0 42px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 38px; }
+      h1 { font-size: clamp(42px, 13vw, 58px); }
+      .hero-copy { font-size: 15px; }
+      .profile-wrap { width: min(78%, 280px); justify-self: center; margin-right: 10px; }
+      .profile-card { aspect-ratio: 1 / 1; }
+      .profile-note { right: -18px; }
+      .section-top { display: block; }
+      .section-intro { margin-top: 12px; }
+      .skills-grid { gap: 9px; }
+      .skill { min-height: 60px; padding: 10px; font-size: 12px; }
+      .contact-panel { align-items: flex-start; flex-direction: column; padding: 24px; }
+      .contact-links { width: 100%; }
+      .contact-links .button { flex: 1 1 130px; }
+      .footer-inner { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="container nav" aria-label="Main navigation">
+      <a class="brand" href="#home">Rahmonjon<span>.</span></a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="nav-action">
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" title="Toggle color theme">
+          <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20.2 15.4A8.5 8.5 0 0 1 8.6 3.8 8.5 8.5 0 1 0 20.2 15.4Z"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow"><span class="status-dot"></span> Hello, I'm</div>
+          <h1>Rahmonjon<br>Rasulov<span style="color:var(--accent)">.</span></h1>
+          <p class="hero-copy"><strong>Aspiring Web Developer</strong> focused on building clean, responsive, and user-friendly websites. I enjoy turning ideas into practical digital experiences.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#contact">
+              Get in touch
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+            </a>
+            <a class="button button-secondary" href="tel:+998900361509">+998 90 036 15 09</a>
+          </div>
+        </div>
+        <div class="profile-wrap">
+          <div class="profile-card">
+            <img src="avatar.png" alt="Rahmonjon Rasulov" id="avatar">
+            <div class="avatar-fallback" id="avatar-fallback" aria-hidden="true">
+              <strong>RR</strong>
+              <span>Profile photo</span>
+            </div>
+          </div>
+          <div class="profile-note">Rahmonjon Rasulov<span>Web Developer</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="section-top">
+          <div><p class="section-label">A little about me</p><h2>About Me</h2></div>
+          <p class="section-intro">I value thoughtful solutions, continuous learning, and creating useful digital experiences.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-aside">
+            <p>At a glance</p>
+            <strong>Curious.<br>Reliable.<br>Always learning.</strong>
+          </div>
+          <div class="about-copy">
+            <p>I'm Rahmonjon Rasulov, an aspiring web developer interested in creating clear, responsive websites. I enjoy learning new technologies and applying them through hands-on projects.</p>
+            <p>I approach each task with care, communicate openly, and value feedback. I'm looking for opportunities to contribute to practical projects while continuing to grow as a developer. This introduction is ready to be personalized with your experience, education, and career goals.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container">
+        <div class="section-top">
+          <div><p class="section-label">What I work with</p><h2>Skills</h2></div>
+          <p class="section-intro">Core skills and strengths. Update this list to reflect your experience.</p>
+        </div>
+        <div class="skills-grid">
+          <div class="skill"><span class="skill-icon">HT</span>HTML &amp; CSS</div>
+          <div class="skill"><span class="skill-icon">JS</span>JavaScript</div>
+          <div class="skill"><span class="skill-icon">UI</span>UI / UX Basics</div>
+          <div class="skill"><span class="skill-icon">Git</span>Git &amp; GitHub</div>
+          <div class="skill"><span class="skill-icon">TW</span>Tailwind CSS</div>
+          <div class="skill"><span class="skill-icon">R</span>Responsive Design</div>
+          <div class="skill"><span class="skill-icon">T</span>Teamwork</div>
+          <div class="skill"><span class="skill-icon">L</span>Fast Learning</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container">
+        <div class="section-top">
+          <div><p class="section-label">Selected work</p><h2>Projects</h2></div>
+          <p class="section-intro">Sample project concepts. Replace these with links and details from your own work.</p>
+        </div>
+        <div class="projects-grid">
+          <article class="project-card">
+            <span class="project-number">01 / Website</span>
+            <h3>Personal Portfolio</h3>
+            <p>A responsive portfolio concept presenting a developer's profile, skills, and selected work in one place.</p>
+            <div class="project-tags"><span>HTML</span><span>CSS</span><span>Responsive</span></div>
+          </article>
+          <article class="project-card">
+            <span class="project-number">02 / Interface</span>
+            <h3>Task Manager</h3>
+            <p>A simple interface concept for organizing daily tasks and tracking progress.</p>
+            <div class="project-tags"><span>JavaScript</span><span>UI</span><span>Web app</span></div>
+          </article>
+          <article class="project-card">
+            <span class="project-number">03 / Design</span>
+            <h3>Product Landing Page</h3>
+            <p>A mobile-friendly landing page concept designed to present a product clearly.</p>
+            <div class="project-tags"><span>Figma</span><span>UX</span><span>Landing page</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="contact-panel">
+          <div>
+            <p class="section-label">Let's connect</p>
+            <h2>Have a project<br>in mind?</h2>
+            <p>Feel free to reach out about a project, opportunity, or collaboration.</p>
+          </div>
+          <div class="contact-links">
+            <a class="button" href="tel:+998900361509" aria-label="Call Rahmonjon">Call</a>
+            <a class="button" href="https://t.me/Cyrex_coder" target="_blank" rel="noopener noreferrer">Telegram</a>
+            <a class="button" href="https://www.linkedin.com/in/rahmonjon-rasulov-4a6aa443b" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>© <span id="year"></span> Rahmonjon Rasulov</span>
+      <span>Thoughtful work. Simple solutions.</span>
+    </div>
+  </footer>
+
+  <script>
+    const root = document.documentElement;
+    const themeToggle = document.getElementById("theme-toggle");
+    const themeIcon = document.getElementById("theme-icon");
+    const moonIcon = '<path d="M20.2 15.4A8.5 8.5 0 0 1 8.6 3.8 8.5 8.5 0 1 0 20.2 15.4Z"/>';
+    const sunIcon = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/>';
+
+    function setTheme(theme) {
+      root.dataset.theme = theme;
+      const isDark = theme === "dark";
+      themeIcon.innerHTML = isDark ? sunIcon : moonIcon;
+      themeToggle.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+      document.querySelector('meta[name="theme-color"]').content = isDark ? "#111713" : "#f6f7f5";
+      try {
+        localStorage.setItem("portfolio-theme", theme);
+      } catch (error) {
+        console.warn("Could not save the theme preference.", error);
+      }
+    }
+
+    let savedTheme = null;
+    try {
+      savedTheme = localStorage.getItem("portfolio-theme");
+    } catch (error) {
+      console.warn("Could not read the saved theme preference.", error);
+    }
+    setTheme(savedTheme === "dark" ? "dark" : "light");
+    themeToggle.addEventListener("click", () => {
+      setTheme(root.dataset.theme === "dark" ? "light" : "dark");
+    });
+
+    const avatar = document.getElementById("avatar");
+    avatar.addEventListener("error", () => {
+      avatar.hidden = true;
+      document.getElementById("avatar-fallback").style.display = "block";
+    });
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
